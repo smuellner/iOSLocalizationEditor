@@ -83,6 +83,7 @@ class Parser {
             }
         }
     }
+
     /// Extracts text from the input until the end marker is reached. Uses that text to create a new token and appends it to a prior extracted token if possible. In any case it updates the current list of extracted tokens.
     ///
     /// - Parameters:
@@ -115,6 +116,7 @@ class Parser {
         }
         state = .other
     }
+
     /// Call this method when the list of tokens is ready and model object can be created. It will iterate through the tokens and try to map their values into model objects. Whe the mapping failed, an error is thrown.
     ///
     /// - Returns: The extracted model values.
@@ -163,6 +165,7 @@ class Parser {
         }
         return results
     }
+
     /// Determines the token that ends an entry. An entry can either be ended by a semicolon (if no comment was provided or the comment is above the entry) or a comment located at the end of a line. In the second case the `.message` token marks the end of the entry.
     ///
     /// - Parameter tokens: The tokens that were extracted during tokenization.
@@ -259,6 +262,7 @@ class Parser {
         }
         return endIndex
     }
+
     /// This function extracts text until a given enclosing control character is found.
     ///
     /// - Parameter endType: The enclosing control charater that terminates a token.

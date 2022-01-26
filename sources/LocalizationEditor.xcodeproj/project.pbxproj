@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15A7FE0227A1BA240055B6C2 /* Deepl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7FE0127A1BA240055B6C2 /* Deepl.swift */; };
 		172274D420D933970036EA4E /* LocalizationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172274D320D933970036EA4E /* LocalizationGroup.swift */; };
 		A117B6AD21D0FFC6008F10E4 /* LocalizableStrings-en-with-complete-messages.strings in Resources */ = {isa = PBXBuildFile; fileRef = A117B6AC21D0FFC0008F10E4 /* LocalizableStrings-en-with-complete-messages.strings */; };
 		A117B6AF21D10060008F10E4 /* LocalizableStrings-en-with-incomplete-messages.strings in Resources */ = {isa = PBXBuildFile; fileRef = A117B6AE21D10060008F10E4 /* LocalizableStrings-en-with-incomplete-messages.strings */; };
@@ -82,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15A7FE0127A1BA240055B6C2 /* Deepl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deepl.swift; sourceTree = "<group>"; };
 		172274D320D933970036EA4E /* LocalizationGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationGroup.swift; sourceTree = "<group>"; };
 		526D844525529105008BCD4B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A117B6AC21D0FFC0008F10E4 /* LocalizableStrings-en-with-complete-messages.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = "LocalizableStrings-en-with-complete-messages.strings"; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				F3D9C96D20BEEAA10081830A /* LocalizationsDataSource.swift */,
 				A15A5A4121D908C400D3C791 /* Parser.swift */,
 				A15A5A4821DA249400D3C791 /* ParserTypes.swift */,
+				15A7FE0127A1BA240055B6C2 /* Deepl.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A15A5A4921DA249400D3C791 /* ParserTypes.swift in Sources */,
+				15A7FE0227A1BA240055B6C2 /* Deepl.swift in Sources */,
 				F3D9C94820BEC7460081830A /* ViewController.swift in Sources */,
 				F3960617223A4084006C7B16 /* AddViewController.swift in Sources */,
 				F3D9C96720BEDF640081830A /* KeyCell.swift in Sources */,
