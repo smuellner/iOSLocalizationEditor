@@ -26,6 +26,8 @@ final class LocalizationCell: NSTableCellView {
 
     var language: String?
 
+    var popover: NSPopover?
+
     var value: LocalizationString? {
         didSet {
             valueTextField.stringValue = value?.value ?? ""
@@ -54,23 +56,18 @@ final class LocalizationCell: NSTableCellView {
         valueTextField?.currentEditor()?.moveToEndOfDocument(nil)
     }
 
-    @IBAction private func deeplButtonTapped(_ sender: NSButton) {
-        guard let language = language else {
+    @IBAction private func translateButtonTapped(_ sender: NSButton) {
+        self.popover?.close()
+        self.popover = nil
+        self.popover = NSPopover()
+        guard let popover = self.popover else {
             return
         }
-        guard let value = value else {
-            return
-        }
-        let text = value.key
-        Deepl.shared.localize(text: text, language: language) { translated in
-            self.valueTextField.stringValue = translated
-            self.setStateUI()
-            self.delegate?.userDidUpdateLocalizationString(
-                language: language,
-                key: value.key,
-                with: translated,
-                message: value.message)
-        }
+        let translateViewController = TranslateViewController(nibName: "TranslateViewController", bundle: Bundle.main)
+        popover.contentViewController = translateViewController
+        popover.animates = false
+        popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .maxX)
+        translateViewController.set(language: language, value: value, delegate: self)
     }
 }
 
@@ -84,5 +81,20 @@ extension LocalizationCell: NSTextFieldDelegate {
 
         setStateUI()
         delegate?.userDidUpdateLocalizationString(language: language, key: value.key, with: valueTextField.stringValue, message: value.message)
+    }
+}
+
+extension LocalizationCell: TranslateViewControllerDelegate {
+    func userDidUpdateLocalizationString(language: String, key: String, with value: String, message: String?) {
+        valueTextField.stringValue = value
+        setStateUI()
+        delegate?.userDidUpdateLocalizationString(language: language, key: key, with: value, message: message)
+        self.popover?.close()
+        self.popover = nil
+    }
+
+    func close() {
+        self.popover?.close()
+        self.popover = nil
     }
 }

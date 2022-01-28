@@ -12,7 +12,7 @@ class Deepl {
         authKey?.isEmpty == false
     }
 
-    func localize(text: String, language: String, _ completion: @escaping (String) -> Void) {
+    func localize(text: String, language: String, _ completion: @escaping ([Translation]) -> Void) {
         guard var components = URLComponents(string: "https://api-free.deepl.com/v2/translate") else {
             return
         }
@@ -37,10 +37,10 @@ class Deepl {
                 debugPrint("Could not load \(url)", String(describing: error))
                 return
             }
-            if let translated = try? JSONDecoder().decode(Translated.self, from: data),
-               let translation = translated.translations.first?.text {
+            if let translated = try? JSONDecoder().decode(Translated.self, from: data) {
+                let translations = translated.translations
                 DispatchQueue.main.async {
-                    completion(translation)
+                    completion(translations)
                 }
             } else {
                 debugPrint("Invalid Response: \(String(describing: data))")
@@ -48,19 +48,5 @@ class Deepl {
         }
 
         task.resume()
-    }
-
-    struct Translated: Codable {
-        let translations: [Translation]
-    }
-
-    struct Translation: Codable {
-        let detectedSourceLanguage: String
-        let text: String
-
-        enum CodingKeys: String, CodingKey {
-            case detectedSourceLanguage = "detected_source_language"
-            case text
-        }
     }
 }

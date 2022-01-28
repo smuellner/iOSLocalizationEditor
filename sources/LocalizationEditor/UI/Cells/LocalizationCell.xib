@@ -15,7 +15,7 @@
             <subviews>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2ZQ-E0-iUg">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="21"/>
-                    <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Eyu-KO-xhD">
+                    <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="Eyu-KO-xhD">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -32,7 +32,7 @@
                         <font key="font" metaFont="smallSystemBold"/>
                     </buttonCell>
                     <connections>
-                        <action selector="deeplButtonTapped:" target="-1" id="x4k-TX-J3p"/>
+                        <action selector="translateButtonTapped:" target="-1" id="vBc-ZY-jzu"/>
                     </connections>
                 </button>
             </subviews>
