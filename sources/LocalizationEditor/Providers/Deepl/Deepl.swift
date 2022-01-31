@@ -12,8 +12,9 @@ class Deepl {
         authKey?.isEmpty == false
     }
 
-    func localize(text: String, language: String, _ completion: @escaping ([Translation]) -> Void) {
+    func localize(text: String, language: String, _ completion: @escaping ([Translation]) -> Void, failed: @escaping (Error) -> Void) {
         guard var components = URLComponents(string: "https://api-free.deepl.com/v2/translate") else {
+            failed(TranslationError.invalidRequest)
             return
         }
 
@@ -23,6 +24,7 @@ class Deepl {
         components.queryItems = [queryItemApiKey, queryItemText, queryItemLanguage]
 
         guard let url = components.url else {
+            failed(TranslationError.invalidRequest)
             return
         }
 
@@ -31,10 +33,16 @@ class Deepl {
             let response = response as! HTTPURLResponse
             let status = response.statusCode
             guard (200...299).contains(status) else {
+                DispatchQueue.main.async {
+                    failed(TranslationError.statusCode(code: status))
+                }
                 return
             }
             guard let data = data, error == nil else {
                 debugPrint("Could not load \(url)", String(describing: error))
+                DispatchQueue.main.async {
+                    failed(TranslationError.error(error: error))
+                }
                 return
             }
             if let translated = try? JSONDecoder().decode(Translated.self, from: data) {
@@ -44,9 +52,19 @@ class Deepl {
                 }
             } else {
                 debugPrint("Invalid Response: \(String(describing: data))")
+                DispatchQueue.main.async {
+                    failed(TranslationError.invalidResponse)
+                }
             }
         }
 
         task.resume()
+    }
+
+    enum TranslationError: Error {
+        case invalidRequest
+        case error(error: Error?)
+        case statusCode(code: Int)
+        case invalidResponse
     }
 }

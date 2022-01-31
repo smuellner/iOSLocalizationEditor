@@ -115,6 +115,21 @@ final class ViewController: NSViewController {
         }
     }
 
+    private func translateAll() {
+        self.progressIndicator.startAnimation(self)
+        self.tableView.isEnabled = false
+        self.tableView.alphaValue = 0.1
+        self.tableView.deselectAll(self)
+        dataSource.translateAll {
+            DispatchQueue.main.async {
+                self.tableView.isEnabled = true
+                self.tableView.alphaValue = 1.0
+                self.tableView.reloadData()
+                self.progressIndicator.stopAnimation(self)
+            }
+        }
+    }
+
     private func filter() {
         dataSource.filter(by: currentFilter, searchString: currentSearchTerm)
         tableView.reloadData()
@@ -267,6 +282,13 @@ extension ViewController: WindowControllerToolbarDelegate {
      */
     func userDidRequestFolderOpen(withPath path: String) {
         openFolder(forPath: path)
+    }
+
+    /**
+     Invoked when user requests automatic translation
+     */
+    func userDidRequestTranslateAll() {
+        translateAll()
     }
 }
 

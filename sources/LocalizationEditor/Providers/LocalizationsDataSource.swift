@@ -271,6 +271,43 @@ final class LocalizationsDataSource: NSObject {
     func getRowForKey(key: String) -> Int? {
         return filteredKeys.firstIndex(of: key)
     }
+
+    let translationQueue = DispatchQueue.global(qos: .background)
+
+    func translateAll(_ completion: @escaping () -> Void) {
+        translationQueue.async { [weak self] in
+            let semaphore = DispatchSemaphore(value: 1)
+            guard let data = self?.data else {
+                completion()
+                return
+            }
+            for (localisationKey, items) in data {
+                for (language, localizationString) in items {
+                    guard let localizationString = localizationString,
+                          localizationString.value.isEmpty else {
+                        continue
+                    }
+                    semaphore.wait()
+                    print("LocalisationKey: \(localisationKey), Language: \(language)")
+                    Deepl.shared.localize(text: localisationKey, language: language) { [weak self] translations in
+                        if let translation = translations.first {
+                            self?.updateLocalization(
+                                language: language,
+                                key: localisationKey,
+                                with: translation.text,
+                                message: nil
+                            )
+                        }
+                        semaphore.signal()
+                    } failed: { error in
+                        print(error)
+                        semaphore.signal()
+                    }
+                }
+            }
+            completion()
+        }
+    }
 }
 
 // MARK: - Delegate

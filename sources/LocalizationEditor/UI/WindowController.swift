@@ -47,12 +47,18 @@ protocol WindowControllerToolbarDelegate: AnyObject {
      Invoked when user requests adding a new translation
      */
     func userDidRequestAddNewTranslation()
+
+    /**
+    Translate all empty strings
+     */
+    func userDidRequestTranslateAll()
 }
 
 final class WindowController: NSWindowController {
 
     // MARK: - Outlets
 
+    @IBOutlet private weak var translateButton: NSToolbarItem!
     @IBOutlet private weak var openButton: NSToolbarItem!
     @IBOutlet private weak var searchField: NSSearchField!
     @IBOutlet private weak var selectButton: NSPopUpButton!
@@ -94,6 +100,7 @@ final class WindowController: NSWindowController {
     }
 
     private func setupUI() {
+        translateButton.toolTip = "translate".localized
         openButton.image = NSImage(named: NSImage.folderName)
         openButton.toolTip = "open_folder".localized
         searchField.toolTip = "search".localized
@@ -125,6 +132,7 @@ final class WindowController: NSWindowController {
     }
 
     private func enableControls() {
+        translateButton.isEnabled = true
         searchField.isEnabled = true
         filterButton.isEnabled = true
         selectButton.isEnabled = true
@@ -144,6 +152,10 @@ final class WindowController: NSWindowController {
         }
 
         delegate?.userDidRequestFilterChange(filter: filter)
+    }
+
+    @IBAction private func translateAll(_ sender: Any) {
+        delegate?.userDidRequestTranslateAll()
     }
 
     @IBAction private func openFolder(_ sender: Any) {

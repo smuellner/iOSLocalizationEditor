@@ -61,6 +61,13 @@ public class TranslateViewController: NSViewController, NSTextViewDelegate {
                 self.add(link: translation.text)
             }
             self.addNewline()
+        } failed: { [weak self] error in
+            guard let self = self else {
+                return
+            }
+            self.progressIndicator.stopAnimation(self)
+            self.add(title: value.key)
+            self.add(subTitle: error.localizedDescription)
         }
     }
 
