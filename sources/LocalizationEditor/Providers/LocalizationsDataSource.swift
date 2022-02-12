@@ -288,20 +288,27 @@ final class LocalizationsDataSource: NSObject {
                         continue
                     }
                     semaphore.wait()
-                    print("LocalisationKey: \(localisationKey), Language: \(language)")
-                    Deepl.shared.localize(text: localisationKey, language: language) { [weak self] translations in
-                        if let translation = translations.first {
-                            self?.updateLocalization(
-                                language: language,
-                                key: localisationKey,
-                                with: translation.text,
-                                message: nil
-                            )
-                        }
-                        semaphore.signal()
-                    } failed: { error in
-                        print(error)
-                        semaphore.signal()
+                    guard let text = data[localisationKey]?.first(where: { $0.key == "en" })?.value?.value else {
+                        print("NOT FOUND \(language) | LocalisationKey: \(localisationKey)")
+                        continue
+                    }
+                    print("Translate \(language) | Text: \(text)")
+                    Deepl.shared.localize(
+                        text: text,
+                        targetLanguage: language,
+                        sourceLanguage: "en") { [weak self] translations in
+                            if let translation = translations.first {
+                                self?.updateLocalization(
+                                    language: language,
+                                    key: localisationKey,
+                                    with: translation.text,
+                                    message: nil
+                                )
+                            }
+                            semaphore.signal()
+                        } failed: { error in
+                            print(error)
+                            semaphore.signal()
                     }
                 }
             }

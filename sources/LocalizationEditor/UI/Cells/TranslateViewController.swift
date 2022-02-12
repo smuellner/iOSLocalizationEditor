@@ -10,6 +10,7 @@ import Cocoa
 
 protocol TranslateViewControllerDelegate: AnyObject {
     func userDidUpdateLocalizationString(language: String, key: String, with value: String, message: String?)
+    func localizationString(language: String, key: String) -> LocalizationString?
     func close()
 }
 
@@ -47,27 +48,36 @@ public class TranslateViewController: NSViewController, NSTextViewDelegate {
         guard let value = value else {
             return
         }
-        let text = value.key
+        let key = value.key
+        guard let text = delegate?.localizationString(language: "en", key: key)?.value else {
+            print("NOT FOUND \(language) | LocalisationKey: \(key)")
+            return
+        }
+        print("Translate \(language) | Text: \(text)")
         progressIndicator.startAnimation(self)
-        Deepl.shared.localize(text: text, language: language) { [weak self] translations in
-            guard let self = self else {
-                return
-            }
-            self.progressIndicator.stopAnimation(self)
-            self.add(title: value.key)
-            self.add(subTitle: value.message)
-            self.addNewline()
-            for translation in translations {
-                self.add(link: translation.text)
-            }
-            self.addNewline()
-        } failed: { [weak self] error in
-            guard let self = self else {
-                return
-            }
-            self.progressIndicator.stopAnimation(self)
-            self.add(title: value.key)
-            self.add(subTitle: error.localizedDescription)
+        Deepl.shared.localize(
+            text: text,
+            targetLanguage: language,
+            sourceLanguage: "en") { [weak self] translations in
+                guard let self = self else {
+                    return
+                }
+                self.progressIndicator.stopAnimation(self)
+                self.add(title: value.key)
+                self.add(subTitle: value.message)
+                self.add(subTitle: "English: \(text)")
+                self.addNewline()
+                for translation in translations {
+                    self.add(link: translation.text)
+                }
+                self.addNewline()
+            } failed: { [weak self] error in
+                guard let self = self else {
+                    return
+                }
+                self.progressIndicator.stopAnimation(self)
+                self.add(title: value.key)
+                self.add(subTitle: error.localizedDescription)
         }
     }
 

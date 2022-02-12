@@ -10,6 +10,7 @@ import Cocoa
 
 protocol LocalizationCellDelegate: AnyObject {
     func userDidUpdateLocalizationString(language: String, key: String, with value: String, message: String?)
+    func localizationString(language: String, key: String) -> LocalizationString?
 }
 
 final class LocalizationCell: NSTableCellView {
@@ -85,6 +86,10 @@ extension LocalizationCell: NSTextFieldDelegate {
 }
 
 extension LocalizationCell: TranslateViewControllerDelegate {
+    func localizationString(language: String, key: String) -> LocalizationString? {
+        return delegate?.localizationString(language: language, key: key)
+    }
+
     func userDidUpdateLocalizationString(language: String, key: String, with value: String, message: String?) {
         valueTextField.stringValue = value
         setStateUI()

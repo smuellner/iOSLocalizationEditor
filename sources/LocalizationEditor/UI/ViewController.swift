@@ -204,6 +204,14 @@ extension ViewController: LocalizationCellDelegate {
     func userDidUpdateLocalizationString(language: String, key: String, with value: String, message: String?) {
         dataSource.updateLocalization(language: language, key: key, with: value, message: message)
     }
+
+    func localizationString(language: String, key: String) -> LocalizationString? {
+        guard let row = dataSource.getRowForKey(key: key) else {
+            return nil
+        }
+        let localisationKey = dataSource.getLocalization(language: language, row: row)
+        return localisationKey
+    }
 }
 
 // MARK: - ActionsCellDelegate
