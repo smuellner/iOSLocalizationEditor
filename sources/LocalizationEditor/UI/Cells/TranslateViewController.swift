@@ -162,4 +162,52 @@ public class TranslateViewController: NSViewController, NSTextViewDelegate {
     @IBAction private func closeButtonTapped(_ sender: NSButton) {
         self.delegate?.close()
     }
+
+    @IBAction private func googleButtonTapped(_ sender: NSButton) {
+        guard let language = language else {
+            return
+        }
+        guard let value = value else {
+            return
+        }
+        let key = value.key
+        guard let text = delegate?.localizationString(language: "en", key: key)?.value else {
+            print("NOT FOUND \(language) | LocalisationKey: \(key)")
+            return
+        }
+        guard let website = Google.shared.website(
+            text: text,
+            targetLanguage: language,
+            sourceLanguage: "en"
+        ) else {
+            print("URL NOT CREATED \(language) | LocalisationKey: \(key)")
+            return
+        }
+        NSWorkspace.shared.open(website)
+        self.delegate?.close()
+    }
+
+    @IBAction private func deeplButtonTapped(_ sender: NSButton) {
+        guard let language = language else {
+            return
+        }
+        guard let value = value else {
+            return
+        }
+        let key = value.key
+        guard let text = delegate?.localizationString(language: "en", key: key)?.value else {
+            print("NOT FOUND \(language) | LocalisationKey: \(key)")
+            return
+        }
+        guard let website = Deepl.shared.website(
+            text: text,
+            targetLanguage: language,
+            sourceLanguage: "en"
+        ) else {
+            print("URL NOT CREATED \(language) | LocalisationKey: \(key)")
+            return
+        }
+        NSWorkspace.shared.open(website)
+        self.delegate?.close()
+    }
 }

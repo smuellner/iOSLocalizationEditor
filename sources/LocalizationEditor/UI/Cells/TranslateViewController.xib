@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -65,13 +65,43 @@
                         <action selector="closeButtonTapped:" target="-2" id="3Zc-Uq-478"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UjU-uv-LEI">
+                    <rect key="frame" x="2" y="1" width="76" height="27"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="64" id="Uhc-Ap-UA7"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Google" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D8X-ck-vzd">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="googleButtonTapped:" target="-1" id="QnV-JZ-m11"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tak-Ih-CJX">
+                    <rect key="frame" x="74" y="1" width="76" height="27"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="64" id="Udp-fJ-X2m"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Deepl" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BYl-ma-nab">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="deeplButtonTapped:" target="-1" id="YDK-WG-tor"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstItem="Tak-Ih-CJX" firstAttribute="leading" secondItem="UjU-uv-LEI" secondAttribute="trailing" constant="8" id="32l-GY-eY6"/>
+                <constraint firstAttribute="bottom" secondItem="UjU-uv-LEI" secondAttribute="bottom" constant="8" id="6zK-ay-Dqw"/>
+                <constraint firstItem="UjU-uv-LEI" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="8" id="9sk-29-aGZ"/>
                 <constraint firstAttribute="trailing" secondItem="Y6g-xC-IGs" secondAttribute="trailing" constant="8" id="Dn4-v9-F3p"/>
                 <constraint firstItem="AYu-49-ljr" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="Dyc-L9-7Kl"/>
                 <constraint firstItem="AYu-49-ljr" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="H2W-HT-mwq"/>
                 <constraint firstItem="Y6g-xC-IGs" firstAttribute="top" secondItem="0RE-mN-9yM" secondAttribute="bottom" constant="8" id="HJC-hC-cfB"/>
                 <constraint firstAttribute="trailing" secondItem="0RE-mN-9yM" secondAttribute="trailing" id="LZG-M7-dla"/>
+                <constraint firstAttribute="bottom" secondItem="Tak-Ih-CJX" secondAttribute="bottom" constant="8" id="PsQ-D5-vOg"/>
                 <constraint firstAttribute="bottom" secondItem="Y6g-xC-IGs" secondAttribute="bottom" constant="8" id="SNW-UA-Gg9"/>
                 <constraint firstItem="AYu-49-ljr" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="XDv-xK-JeX"/>
                 <constraint firstItem="0RE-mN-9yM" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="kL0-9A-qit"/>

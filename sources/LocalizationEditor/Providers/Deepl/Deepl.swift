@@ -21,31 +21,8 @@ class Deepl {
                   sourceLanguage: String?,
                   _ completion: @escaping ([Translation]) -> Void,
                   failed: @escaping (Error) -> Void) {
-        guard var components = URLComponents(string: "https://api-free.deepl.com/v2/translate") else {
-            failed(TranslationError.invalidRequest)
-            return
-        }
 
-        let queryItemApiKey = URLQueryItem(name: "auth_key", value: authKey)
-        let queryItemText = URLQueryItem(name: "text", value: text)
-        let queryItemTargetLanguage = URLQueryItem(name: "target_lang", value: targetLanguage)
-        if let sourceLanguage = sourceLanguage {
-            let queryItemSourceLanguage = URLQueryItem(name: "source_lang", value: sourceLanguage)
-            components.queryItems = [
-                queryItemApiKey,
-                queryItemText,
-                queryItemSourceLanguage,
-                queryItemTargetLanguage
-            ]
-        } else {
-            components.queryItems = [
-                queryItemApiKey,
-                queryItemText,
-                queryItemTargetLanguage
-            ]
-        }
-
-        guard let url = components.url else {
+        guard let url = url(text: text, targetLanguage: targetLanguage, sourceLanguage: sourceLanguage) else {
             failed(TranslationError.invalidRequest)
             return
         }
@@ -73,6 +50,48 @@ class Deepl {
         }
 
         task.resume()
+    }
+
+    func url(text: String,
+             targetLanguage: String,
+             sourceLanguage: String?) -> URL? {
+        guard var components = URLComponents(string: "https://api-free.deepl.com/v2/translate") else {
+            return nil
+        }
+
+        let queryItemApiKey = URLQueryItem(name: "auth_key", value: authKey)
+        let queryItemText = URLQueryItem(name: "text", value: text)
+        let queryItemTargetLanguage = URLQueryItem(name: "target_lang", value: targetLanguage)
+        if let sourceLanguage = sourceLanguage {
+            let queryItemSourceLanguage = URLQueryItem(name: "source_lang", value: sourceLanguage)
+            components.queryItems = [
+                queryItemApiKey,
+                queryItemText,
+                queryItemSourceLanguage,
+                queryItemTargetLanguage
+            ]
+        } else {
+            components.queryItems = [
+                queryItemApiKey,
+                queryItemText,
+                queryItemTargetLanguage
+            ]
+        }
+
+        guard let url = components.url else {
+            return nil
+        }
+
+        return url
+    }
+
+    func website(text: String,
+                 targetLanguage: String,
+                 sourceLanguage: String = "") -> URL? {
+        guard let website = URL(string: "https://www.deepl.com/translator#\(sourceLanguage)/\(targetLanguage)/\(text)") else {
+            return nil
+        }
+        return website
     }
 
     enum TranslationError: Error {
